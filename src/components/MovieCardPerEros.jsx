@@ -1,13 +1,11 @@
 import { Component } from 'react'
-import { Card, Spinner, Alert } from 'react-bootstrap'
+import { Card, Spinner } from 'react-bootstrap'
 
 class MovieCard extends Component {
   state = {
-    movieDetails: {}, // movieDetails dopo il componentDidMount diventerà un oggetto
+    movieDetails: null, // movieDetails dopo il componentDidMount diventerà un oggetto
     // con i dettagli del film... ma al montaggio, al primo render, ancora non li ho!
     // metto un valore vuoto, che poi verrà sostituito dall'oggetto con i dettagli del film
-    isLoading: true,
-    isError: false,
   }
 
   // questo componente deve recuperare dinamicamente le informazioni per la Card da omdbapi.com
@@ -37,17 +35,12 @@ class MovieCard extends Component {
         console.log('i dettagli per la card', data.Search[0])
         this.setState({
           movieDetails: data.Search[0], // sostituisco nello state il vecchio "null" con un oggetto pieno di dettagli
-          isLoading: false,
         })
         // a questo punto render() verrà invocato di nuovo, si aggiorna
         // mostrerà la card con i dettagli provenienti dalla fetch :)
       })
       .catch((err) => {
         console.log('ERRORE!', err)
-        this.setState({
-          isLoading: false,
-          isError: true,
-        })
       })
 
     // con async/await :) ricordati di settare fetchMovieDetails come funzione async
@@ -68,16 +61,13 @@ class MovieCard extends Component {
     return (
       <>
         <h2>Locandina</h2>
-        {this.state.isLoading && (
+        {!this.state.movieDetails && (
           // primo render
           <div className="text-center">
             <Spinner animation="border" variant="warning" />
           </div>
         )}
-        {this.state.isError && (
-          <Alert variant="danger">Errore nel recupero film</Alert>
-        )}
-        {!this.state.isLoading && (
+        {this.state.movieDetails && (
           // secondo render
           <Card>
             <Card.Img variant="top" src={this.state.movieDetails.Poster} />
