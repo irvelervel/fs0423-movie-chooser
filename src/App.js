@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container' // import più specifico, megl
 import Row from 'react-bootstrap/Row' // import più specifico, meglio :)
 import Col from 'react-bootstrap/Col' // import più specifico, meglio :)
 import { Component } from 'react'
-import MovieCardPerEros from './components/MovieCardPerEros'
+import MovieCard from './components/MovieCard'
 
 // il valore del dropdown va salvato nello stato del componente (2-way data binding!)
 
@@ -42,7 +42,7 @@ class App extends Component {
             </Row>
             <Row className="justify-content-center mt-3">
               <Col xs={12} md={6}>
-                <MovieCardPerEros movieTitle={this.state.movieTitle} />
+                <MovieCard movieTitle={this.state.movieTitle} />
               </Col>
             </Row>
           </Container>
